@@ -1,0 +1,49 @@
+# Ignore file for Visual Studio 2008
+
+# use glob syntax
+syntax: glob
+
+# Ignore Visual Studio 2008 files
+*.obj
+*.exe
+*.pdb
+*.user
+*.msi
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+*.sws
+*.pdsync
+*.pdsyncu
+~*.doc
+[Tt]humbs.db
+packages/
+[Bb]in*/
+[Dd]ebug*/
+[Ll]ogs/
+Backup/
+obj/
+[Rr]elease*/
+_ReSharper*/
+_UpgradeReport_Files/
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+UpgradeLog.XML
+*.csproj.user
+*.ncb
+*.suo
+.idea/

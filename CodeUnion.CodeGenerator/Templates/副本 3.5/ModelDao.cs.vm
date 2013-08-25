@@ -1,0 +1,146 @@
+﻿#set($qualifier = "#")
+using System;
+using System.Collections.Generic;
+using IBatisNet.Common;
+using IBatisNet.DataMapper;
+using ${namespace}.Model;
+
+namespace ${namespace}.Dao
+{
+	/// <summary>
+	/// ${table.Description}Dao
+	/// </summary>
+	public class ${table.Alias}Dao : MyBatisDaoBase<$table.Alias>
+	{
+		
+		#region 构造函数
+		public ${table.Alias}Dao()
+			: base("${database}Reader.config", "${database}Writer.config")
+		{
+
+		}
+		#endregion
+
+		#region 方法
+		/// <summary>
+		/// 获取$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>$table.Description</returns>
+		public $table.Alias Get${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.Reader.QueryForObject<$table.Alias>(this.GetStatementName("Get$table.Alias"), $key.CamelAlias);
+		}
+
+		/// <summary>
+		/// 获取$table.Description集合
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>$table.Description集合</returns>
+		public IList<$table.Alias> Get${table.Alias}s(${table.Alias}QP query)
+		{
+			if(query.IsReset)
+            {
+                query.PageIndex = 0;
+                query.ItemCount = Get${table.Alias}sCount(query);
+            }
+			return this.Reader.QueryForList<$table.Alias>(this.GetStatementName("Get${table.Alias}s"), query);
+		}		
+		
+		/// <summary>
+		/// 获取$table.Description 记录数
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>$table.Description集合</returns>
+		public int Get${table.Alias}sCount(${table.Alias}QP query)
+		{
+			return this.Reader.QueryForObject<int>(this.GetStatementName("Get${table.Alias}sCount"), query);
+		}
+
+		/// <summary>
+		/// 有否$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>结果</returns>
+		public bool Has${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.Reader.QueryForObject<int>(this.GetStatementName("Has$table.Alias"), $key.CamelAlias) > 0;
+		}
+
+		/// <summary>
+		/// 插入$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		public int Insert${table.Alias}($table.Alias $table.CamelAlias)
+		{
+			var rst = this.Writer.Insert(this.GetStatementName("Insert$table.Alias"), $table.CamelAlias);
+			return (int)(rst??0);
+		}
+
+		///<summary>
+		///删除$table.Description
+		///</summary>
+		///<parma name="$key.CamelAlias">$key.Description</param>
+		///<returns>结果</returns>
+		public bool Remove${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.Writer.Delete(this.GetStatementName("Remove${table.Alias}"), $key.CamelAlias) > 0;
+		}
+
+		/// <summary>
+		/// 删除$table.Description集合
+		/// </summary>
+		/// <param name="${key.CamelAlias}s">${key.Description}集合</param>
+		/// <returns>结果</returns>
+		public bool Remove${table.Alias}s(IList<$key.Type> ${key.CamelAlias}s)
+		{
+			return this.Writer.Delete(this.GetStatementName("Remove${table.Alias}s"), ${key.CamelAlias}s) > 0;
+		}
+
+		/// <summary>
+		/// 保存$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		public bool Save${table.Alias}($table.Alias $table.CamelAlias)
+		{
+			return this.Writer.Update(this.GetStatementName("Save${table.Alias}"), ${table.CamelAlias}) > 0;
+		}
+	
+		/// <summary>
+		/// 更新$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		public bool Update${table.Alias}(${table.Alias}QP ${table.CamelAlias}Qp)
+		{
+			return this.Writer.Update(this.GetStatementName("Update$table.Alias"), ${table.CamelAlias}Qp) > 0;
+		}		
+		
+		 /// <summary>
+        /// 获取全命名空间
+        /// </summary>
+        /// <param name="name">标识statement</param>
+        /// <returns></returns>
+        protected override string GetStatementName(string name)
+        {
+            return string.Format("{0}.{1}", "${namespace}", name);
+        }
+		#endregion
+		
+	${qualifier}if DEBUG
+        public string GetRunSql(string Statement, object para)
+        {
+            var mapper = this.Writer;
+            if (!mapper.IsSessionStarted)
+            {
+                mapper.OpenConnection();
+            }
+            var statement = mapper.GetMappedStatement(GetStatementName(Statement));
+            var scope = statement.Statement.Sql.GetRequestScope(statement, para, mapper.LocalSession);
+            return scope.PreparedStatement.PreparedSql;
+        }
+	${qualifier}endif
+	}
+}

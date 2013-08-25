@@ -1,0 +1,45 @@
+namespace ${namespace}
+{
+    using IBatisNet.DataMapper;
+
+    public class MyBatisDaoBase<T> where T : class
+    {
+        private ISqlMapper _reader;
+        private ISqlMapper _writer;
+        public MyBatisDaoBase() { }
+        public MyBatisDaoBase(string readerName, string writerName)
+        {
+            this._reader = MyBatisMapperManager.GetMapper(readerName);
+            this._writer = MyBatisMapperManager.GetMapper(writerName);
+        }
+
+        public ISqlMapper Writer
+        {
+            get { return this._writer; }
+            set { this._writer = value; }
+        }
+
+        public ISqlMapper Reader
+        {
+            get { return this._reader; }
+            set { this._reader = value; }
+        }
+
+        protected virtual string GetStatementName(string name)
+        {
+            return string.Format("{0}.{1}", typeof(T).Namespace, name);
+        }
+
+        public string GetRunSql(string Statement, object para)
+        {
+            var mapper = this.Writer;
+            if (!mapper.IsSessionStarted)
+            {
+                mapper.OpenConnection();
+            }
+            var statement = mapper.GetMappedStatement(GetStatementName(Statement));
+            var scope = statement.Statement.Sql.GetRequestScope(statement, para, mapper.LocalSession);
+            return scope.PreparedStatement.PreparedSql;
+        }
+    }
+}

@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Specialized;
+
+namespace ${namespace}.Model
+{
+	/// <summary>
+	/// $table.Description
+	/// </summary>
+	[Serializable]
+	public abstract class PaginationBase
+	{		
+		/// <summary>
+        /// 每页显示数
+        /// </summary>
+        public int PageSize { get; set; }
+
+        private int _pageIndex = 1;
+        /// <summary>
+        /// 页索引
+        /// </summary>
+        public int PageIndex
+        {
+            get
+            {
+                return _pageIndex > 0 ? this._pageIndex : 1;
+            }
+            set
+            {
+                this._pageIndex = value;
+            }
+        }
+
+        /// <summary>
+        /// 总计
+        /// </summary>
+        public int ItemCount { get; set; }
+		
+		/// <summary>
+        /// 是否首页
+        /// </summary>
+        public bool IsFirstPage
+        {
+            get
+            {
+                return this.PageIndex == 1;
+            }
+        }
+
+        /// <summary>
+        /// 是否末页
+        /// </summary>
+        public bool IsLastPage
+        {
+            get
+            {
+                return this.PageIndex == this.PageCount ;
+            }
+        }
+
+        /// <summary>
+        /// 页数
+        /// </summary>
+        public int PageCount
+        {
+            get
+            {
+                int result;
+                if (this.ItemCount % this.PageSize == 0)
+                {
+                    result = this.ItemCount / this.PageSize;
+                }
+                else
+                {
+                    result = this.ItemCount / this.PageSize + 1;
+                }
+
+                return result;
+            }
+        }
+	}
+}

@@ -1,0 +1,95 @@
+﻿#set($qualifier = "#")
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="${namespace}.Model" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="$table.Alias" type="${namespace}.Model.$table.Alias, Jd.WmsMom.Db" />
+	</alias>
+	<resultMaps>
+		<resultMap id="$table.Alias" class="$table.Alias">
+#foreach ($column in $allColumns)
+#each
+			<result property="$column.Alias" column="$column.Name" />
+#end
+		</resultMap>
+	</resultMaps>
+	<statements>
+		<select id="Get$table.Alias" parameterClass="$key.Type" resultMap="$table.Alias">
+			select *
+			from $table.Name (nolock)
+			where $key.Name = #value#
+		</select>
+		<select id="Get${table.Alias}s" parameterClass="$table.Alias" resultMap="$table.Alias">
+			select *
+			from $table.Name (nolock)
+		</select>
+		<select id="Has$table.Alias" parameterClass="$key.Type" resultClass="int">
+			select count(1)
+			from $table.Name (nolock)
+			where $key.Name = #value#
+		</select>
+#if ($key.Type == "string")
+		<insert id="Insert$table.Alias" parameterClass="$table.Alias">
+			<selectKey property="$key.Alias" type="post" resultClass="$key.Type">
+				select $key.Name
+				from $table.Name (nolock)
+			</selectKey>
+			insert into $table.Name
+			(
+#foreach ($column in $allColumns)
+				$column.Name#between
+,
+#end
+
+			)
+			values
+			(
+#foreach ($column in $allColumns)
+#each
+				$qualifier$column.Alias$qualifier#between
+,
+#end
+
+			)
+		</insert>
+#else
+		<insert id="Insert$table.Alias" parameterClass="$table.Alias">
+			<selectKey property="$key.Alias" type="post" resultClass="$key.Type">
+				select @@identity
+			</selectKey>
+			insert into $table.Name
+			(
+#foreach ($column in $columns)
+				$column.Name#between
+,
+#end
+
+			)
+			values
+			(
+#foreach ($column in $columns)
+#each
+				$qualifier$column.Alias$qualifier#between
+,
+#end
+
+			)
+		</insert>
+#end
+		<delete id="Remove$table.Alias" parameterClass="$key.Type">
+			delete
+			from $table.Name
+			where $key.Name = #value#
+		</delete>
+		<update id="Update$table.Alias" parameterClass="$table.Alias">
+			update $table.Name
+			set
+#foreach ($column in $columns)
+#each
+				$column.Name = $qualifier$column.Alias$qualifier#between
+,
+#end
+
+			where $key.Name = #$key.Alias#
+		</update>
+	</statements>
+</sqlMap>

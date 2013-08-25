@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Specialized;
+
+namespace ${namespace}.Model
+{
+	/// <summary>
+	/// $table.Description
+	/// </summary>
+	[Serializable]
+	public abstract class QPBase : HybridDictionary
+    {
+        #region 分页
+
+        public int PageIndex
+        {
+            get
+            {
+                return (int)(this["PageIndex"] ?? 0);
+            }
+            set
+            {
+                this["PageIndex"] = value;
+                SkipNum = (value - 1) * PageSize;
+            }
+        }
+
+
+        public int PageSize
+        {
+            get
+            {
+                return (int)(this["PageSize"] ?? 10);
+            }
+            set
+            {
+                this["PageSize"] = value;
+                SkipNum = value * (PageIndex - 1);
+            }
+        }
+
+        public int SkipNum
+        {
+            get { return (int)(this["SkipNum"] ?? 0); }
+            set { this["SkipNum"] = value; }
+        }
+
+        public int ItemCount { get; set; }
+
+        public bool IsReset { get; set; }
+
+        #endregion
+
+        #region 排序
+
+        public string OrderSort
+        {
+            set
+            {
+                this["OrderSort"] = value;
+            }
+        }
+
+        #endregion
+    }
+}

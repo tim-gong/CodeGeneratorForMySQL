@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Specialized;
+
+namespace ${namespace}.Model
+{
+	/// <summary>
+	/// $table.Description
+	/// </summary>
+	[Serializable]
+	public class $table.Alias : PaginationBase
+	{	
+		#region 属性
+#foreach ($column in $allColumns)
+#each
+		/// <summary>
+		/// $column.Description
+		/// </summary>
+		public $column.Type $column.Alias
+		{
+			get;
+			set;
+		}
+#between
+
+#end
+		#endregion		
+	}
+	
+	public class ${table.Alias}QP : QPBase
+	{	
+		#region .ctor
+        public ${table.Alias}QP()
+        {
+            PageSize = 10;
+            SkipNum = 0;
+			PageIndex = 1;
+        }
+
+	    #endregion
+	    	
+	    #region 属性
+        #foreach ($column in $allColumns)
+#each
+		/// <summary>
+		/// $column.Description
+		/// </summary>
+		public $column.Type $column.Alias
+		{
+			set { this["$column.Alias"] = value; }
+		}
+#between
+
+#end
+		#endregion 
+	}
+}

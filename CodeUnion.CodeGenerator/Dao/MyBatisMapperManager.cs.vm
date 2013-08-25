@@ -1,0 +1,35 @@
+﻿using System.Collections.Generic;
+using IBatisNet.DataMapper;
+using IBatisNet.DataMapper.Configuration;
+
+namespace CodeUnion.SiteGroupManagement
+{
+    public class MyBatisMapperManager
+    {
+        // Fields
+        private static readonly object locker;
+        private static readonly IDictionary<string, ISqlMapper> mappers;
+
+        // Methods
+        static MyBatisMapperManager()
+        {
+            locker = new object();
+            mappers = new Dictionary<string, ISqlMapper>();
+            return;
+        }
+
+        public MyBatisMapperManager()
+        {
+        }
+
+        public static ISqlMapper GetMapper(string name)
+        {
+            DomSqlMapBuilder d = new DomSqlMapBuilder();//初始化一个DomSqlMapBuilder
+            ISqlMapper sm = d.Configure(name);          //调用Configure方法并指定配置文件的名称,返回一个SqlMapper
+            return sm;
+
+        }
+    }
+
+
+}

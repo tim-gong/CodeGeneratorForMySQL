@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Specialized;
+
+namespace ${namespace}.Model
+{
+	/// <summary>
+	/// $table.Description
+	/// </summary>
+	[Serializable]
+	public abstract class PaginationBase
+	{		
+		/// <summary>
+        /// 每页显示数
+        /// </summary>
+        public int PageSize { get; set; }
+
+        /// <summary>
+        /// 页索引
+        /// </summary>
+        public int PageIndex { get; set; }
+
+        /// <summary>
+        /// 总计
+        /// </summary>
+        public int ItemCount { get; set; }
+	}
+}

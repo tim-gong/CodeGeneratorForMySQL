@@ -1,0 +1,52 @@
+﻿using System;
+
+namespace ${namespace}.Model
+{
+	/// <summary>
+	/// $table.Description
+	/// </summary>
+	[Serializable]
+	public class $table.Alias
+	{
+		#region 变量
+#foreach ($column in $allColumns)
+#each
+		private $column.Type$nullableType $column.CamelAlias;
+#end
+		#endregion
+
+		#region 属性
+#foreach ($column in $allColumns)
+#each
+		/// <summary>
+		/// $column.Description
+		/// </summary>
+		public $column.Type$nullableType $column.Alias
+		{
+			get
+			{
+				return this.$column.CamelAlias;
+			}
+			set
+			{
+				this.$column.CamelAlias = value;
+			}
+		}
+#between
+
+#end
+		#endregion
+
+		#region 事件
+
+		#endregion
+
+		#region 构造函数
+
+		#endregion
+
+		#region 方法
+
+		#endregion
+	}
+}

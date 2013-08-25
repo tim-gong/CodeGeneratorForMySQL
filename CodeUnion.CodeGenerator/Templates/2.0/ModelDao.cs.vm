@@ -1,0 +1,137 @@
+﻿using System;
+using System.Collections.Generic;
+using IBatisNet.Common;
+using IBatisNet.DataMapper;
+using Jd.Data;
+using ${namespace}.Model;
+
+namespace ${namespace}.Dao
+{
+	/// <summary>
+	/// ${table.Description}Dao
+	/// </summary>
+	public class ${table.Alias}Dao : IBatisDaoBase<$table.Alias>
+	{
+		#region 变量
+
+		#endregion
+
+		#region 属性
+		
+		#endregion
+
+		#region 事件
+
+		#endregion
+
+		#region 构造函数
+		public ${table.Alias}Dao()
+			: base("${database}Reader.config", "${database}Writer.config")
+		{
+
+		}
+		#endregion
+
+		#region 方法
+		/// <summary>
+		/// 获取$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>$table.Description</returns>
+		public $table.Alias Get${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.Reader.QueryForObject<$table.Alias>(this.GetStatementName("Get$table.Alias"), $key.CamelAlias);
+		}
+
+		/// <summary>
+		/// 获取$table.Description集合
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>$table.Description集合</returns>
+		public IList<$table.Alias> Get${table.Alias}s($table.Alias $table.CamelAlias)
+		{
+			return this.Reader.QueryForList<$table.Alias>(this.GetStatementName("Get${table.Alias}s"), $table.CamelAlias);
+		}
+
+		/// <summary>
+		/// 有否$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>结果</returns>
+		public bool Has${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.Reader.QueryForObject<int>(this.GetStatementName("Has$table.Alias"), $key.CamelAlias) > 0;
+		}
+
+		/// <summary>
+		/// 插入$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		public bool Insert${table.Alias}($table.Alias $table.CamelAlias)
+		{
+			return this.Writer.Insert(this.GetStatementName("Insert$table.Alias"), $table.CamelAlias) != null;
+		}
+
+		/// <summary>
+		/// 移除$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>结果</returns>
+		public bool Remove${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.Writer.Delete(this.GetStatementName("Remove$table.Alias"), $key.CamelAlias) > 0;
+		}
+
+		/// <summary>
+		/// 移除$table.Description集合
+		/// </summary>
+		/// <param name="${key.CamelAlias}s">$key.Description集合</param>
+		/// <returns>结果</returns>
+		public bool Remove${table.Alias}s(IList<$key.Type> ${key.CamelAlias}s)
+		{
+			bool result = true;
+			using (IDalSession session = this.Writer.BeginTransaction())
+			{
+				foreach ($key.Type $key.CamelAlias in ${key.CamelAlias}s)
+				{
+					result &= this.Remove${table.Alias}($key.CamelAlias);
+				}
+				session.Complete();
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// 保存$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		public bool Save${table.Alias}($table.Alias $table.CamelAlias)
+		{
+			bool result = false;
+			if (this.Has${table.Alias}(${table.CamelAlias}.${key.Alias}))
+			{
+				result = this.Update${table.Alias}($table.CamelAlias);
+			}
+			else
+			{
+				result = this.Insert${table.Alias}($table.CamelAlias);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// 更新$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		public bool Update${table.Alias}($table.Alias $table.CamelAlias)
+		{
+			return this.Writer.Update(this.GetStatementName("Update$table.Alias"), $table.CamelAlias) > 0;
+		}
+		#endregion
+	}
+}

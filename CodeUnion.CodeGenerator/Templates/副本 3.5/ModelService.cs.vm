@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using ${namespace}.Contract;
+using ${namespace}.Model;
+using ${namespace}.Dao;
+
+namespace ${namespace}.Service
+{
+	public class ${table.Alias}Service : I${table.Alias}Service
+	{
+		#region 变量
+
+		#endregion
+
+		#region 属性
+		/// <summary>
+		/// ${table.Description}Dao
+		/// </summary>
+		public ${table.Alias}Dao ${table.Alias}Dao
+		{
+			get;
+			set;
+		}
+		#endregion
+
+		#region 事件
+
+		#endregion
+
+		#region 构造函数
+		public ${table.Alias}Service()
+		{
+			this.${table.Alias}Dao = new ${table.Alias}Dao();
+		}
+		#endregion
+
+		#region 方法
+		public $table.Alias Get${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.${table.Alias}Dao.Get${table.Alias}($key.CamelAlias);
+		}
+
+		public IList<$table.Alias> Get${table.Alias}s(${table.Alias}QP ${table.CamelAlias}Param)
+		{
+			return this.${table.Alias}Dao.Get${table.Alias}s(${table.CamelAlias}Param);
+		}
+
+		public bool Remove${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return this.${table.Alias}Dao.Remove${table.Alias}($key.CamelAlias);
+		}
+
+		public bool Remove${table.Alias}s(IList<$key.Type> ${key.CamelAlias}s)
+		{
+			return this.${table.Alias}Dao.Remove${table.Alias}s(${key.CamelAlias}s);
+		}
+
+		public bool Save${table.Alias}($table.Alias $table.CamelAlias)
+		{
+			return this.${table.Alias}Dao.Save${table.Alias}($table.CamelAlias);
+		}
+		#endregion
+	}
+}

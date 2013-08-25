@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using ${namespace}.Model;
+
+namespace ${namespace}.Contract
+{
+	/// <summary>
+	/// ${table.Description}服务
+	/// </summary>
+	public interface I${table.Alias}Service
+	{
+		#region 变量
+
+		#endregion
+
+		#region 属性
+
+		#endregion
+
+		#region 事件
+
+		#endregion
+
+		#region 构造函数
+
+		#endregion
+
+		#region 方法
+		/// <summary>
+		/// 获取$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>$table.Description</returns>
+		$table.Alias Get${table.Alias}($key.Type $key.CamelAlias);
+
+		/// <summary>
+		/// 获取$table.Description集合
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>$table.Description集合</returns>
+		IList<$table.Alias> Get${table.Alias}s(${table.Alias}QP $table.CamelAlias);
+
+		/// <summary>
+		/// 移除$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>结果</returns>
+		bool Remove${table.Alias}($key.Type $key.CamelAlias);
+
+		/// <summary>
+		/// 移除$table.Description集合
+		/// </summary>
+		/// <param name="${key.CamelAlias}s">$key.Description集合</param>
+		/// <returns>结果</returns>
+		bool Remove${table.Alias}s(IList<$key.Type> ${key.CamelAlias}s);
+
+		/// <summary>
+		/// 保存$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		bool Save${table.Alias}($table.Alias $table.CamelAlias);
+		#endregion
+	}
+}

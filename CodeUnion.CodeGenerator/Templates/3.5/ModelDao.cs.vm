@@ -1,0 +1,103 @@
+﻿#set($qualifier = "#")
+using System;
+using System.Collections.Generic;
+using IBatisNet.Common;
+using IBatisNet.DataMapper;
+using ${namespace}.Model;
+
+namespace ${namespace}.Dao
+{
+	/// <summary>
+	/// ${table.Description}Dao
+	/// </summary>
+	public class ${table.Alias}Dao : MyBatisDaoBase<$table.Alias>
+	{
+		
+		#region 构造函数
+		public ${table.Alias}Dao()
+			: base("${database}Reader.config", "${database}Writer.config")
+		{
+
+		}
+		public ${table.Alias}Dao(string read, string writer) : base(read, writer) { }
+		#endregion
+
+		#region 方法
+		/// <summary>
+		/// 获取$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>$table.Description</returns>
+		public $table.Alias Get${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return Reader.QueryForObject<$table.Alias>(GetStatementName("Get$table.Alias"), $key.CamelAlias);
+		}
+
+		/// <summary>
+		/// 获取$table.Description集合
+		/// </summary>
+		/// <param name="${table.CamelAlias}Qp">$table.Description</param>
+		/// <returns>$table.Description集合</returns>
+		public IList<$table.Alias> Get${table.Alias}s(${table.Alias}QP ${table.CamelAlias}Qp)
+		{
+			if(${table.CamelAlias}Qp.IsReset)
+            {
+                ${table.CamelAlias}Qp.PageIndex = 1;
+            }
+			${table.CamelAlias}Qp.ItemCount = Get${table.Alias}sCount(${table.CamelAlias}Qp);
+			return Reader.QueryForList<$table.Alias>(GetStatementName("Get${table.Alias}s"), ${table.CamelAlias}Qp);
+		}		
+		
+		/// <summary>
+		/// 获取$table.Description 记录数
+		/// </summary>
+		/// <param name="${table.CamelAlias}Qp">query</param>
+		/// <returns>$table.Description集合</returns>
+		public int Get${table.Alias}sCount(${table.Alias}QP ${table.CamelAlias}Qp)
+		{
+			return Reader.QueryForObject<int>(GetStatementName("Get${table.Alias}sCount"), ${table.CamelAlias}Qp);
+		}
+
+		/// <summary>
+		/// 有否$table.Description
+		/// </summary>
+		/// <param name="$key.CamelAlias">$key.Description</param>
+		/// <returns>结果</returns>
+		public bool Has${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return Reader.QueryForObject<int>(GetStatementName("Has$table.Alias"), $key.CamelAlias) > 0;
+		}
+
+		/// <summary>
+		/// 插入$table.Description
+		/// </summary>
+		/// <param name="$table.CamelAlias">$table.Description</param>
+		/// <returns>结果</returns>
+		public int Insert${table.Alias}($table.Alias $table.CamelAlias)
+		{
+			var rst = Writer.Insert(GetStatementName("Insert$table.Alias"), $table.CamelAlias);
+			return (int)(rst??0);
+		}
+
+		///<summary>
+		///删除$table.Description
+		///</summary>
+		///<param name="$key.CamelAlias">$key.Description</param>
+		///<returns>结果</returns>
+		public bool Remove${table.Alias}($key.Type $key.CamelAlias)
+		{
+			return Writer.Update(GetStatementName("Remove${table.Alias}"), $key.CamelAlias) > 0;
+		}
+	
+		/// <summary>
+		/// 更新$table.Description
+		/// </summary>
+		/// <param name="${table.CamelAlias}Qp">$table.Description</param>
+		/// <returns>结果</returns>
+		public bool Update${table.Alias}(${table.Alias}QP ${table.CamelAlias}Qp)
+		{
+			return Writer.Update(GetStatementName("Update$table.Alias"), ${table.CamelAlias}Qp) > 0;
+		}
+		#endregion
+	}
+}

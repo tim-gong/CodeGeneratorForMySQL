@@ -1,0 +1,123 @@
+﻿#set($qualifier = "#")
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="${namespace}" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="$table.Alias" type="${namespace}.Model.$table.Alias, ${namespace}" />
+	</alias>
+	<resultMaps>
+		<resultMap id="$table.Alias" class="$table.Alias">
+#foreach ($column in $allColumns)
+#each
+			<result property="$column.Alias" column="$column.Name" />
+#end
+		</resultMap>
+	</resultMaps>
+	<statements>
+		<sql id="${table.Alias}columns">
+		#foreach ($column in $allColumns)
+		 $column.Name #between
+,
+#end
+		
+		</sql>
+		<sql id="${table.Alias}updatefilter">
+			<dynamic prepend=" ">
+#foreach ($column in $columns)
+			 <isNotEmpty property="$column.Alias" prepend=",">$column.Name = $qualifier$column.Alias$qualifier </isNotEmpty>				
+#end			
+			</dynamic>
+		</sql>
+		<sql id="${table.Alias}wherefilter">
+			<dynamic prepend="where">
+#foreach ($column in $allColumns)
+			 <isNotEmpty property="$column.Alias" prepend="and">$column.Name = $qualifier$column.Alias$qualifier </isNotEmpty>				
+#end
+			</dynamic>
+		</sql>
+		<sql id="${table.Alias}Ordersort">
+		<dynamic>
+        <isNotEmpty property="OrderSort">order by $OrderSort$</isNotEmpty>
+        <isEmpty property="OrderSort">order by $key.Name desc </isEmpty>
+		</dynamic>
+		</sql>
+		<select id="Get$table.Alias" parameterClass="$key.Type" resultMap="$table.Alias">
+			select <include refid="${table.Alias}columns" />
+			from $table.Name (nolock)
+			where $key.Name = #value#
+		</select>
+		<select id="Get${table.Alias}s" parameterClass="map" resultMap="$table.Alias">			
+		with temptable as (
+		select <include refid="${table.Alias}columns" />,row_number() over(<include refid="${table.Alias}Ordersort" />) as pindex
+			from ${table.Alias} (nolock)
+			<include refid="${table.Alias}wherefilter" />
+			)
+		select top $PageSize$ <include refid="${table.Alias}columns" /> from temptable with(nolock)
+		where pindex > $SkipNum$
+		</select>
+		<select id="Get${table.Alias}sCount" parameterClass="map" resultClass="int">
+		 select count(1)
+		 from ${table.Alias} (nolock)
+		<include refid="${table.Alias}wherefilter" />
+		</select>
+		<select id="Has$table.Alias" parameterClass="$key.Type" resultClass="int">
+			select count(1)
+			from $table.Name (nolock)
+			where $key.Name = #value#
+		</select>
+#if ($key.Type == "string")
+		<insert id="Insert$table.Alias" parameterClass="$table.Alias">
+			<selectKey property="$key.Alias" type="post" resultClass="$key.Type">
+				select $key.Name
+				from $table.Name (nolock)
+			</selectKey>
+			insert into $table.Name
+			(
+#foreach ($column in $allColumns)
+				$column.Name#between
+,
+#end
+
+			)
+			values
+			(
+#foreach ($column in $allColumns)
+#each
+				$qualifier$column.Alias$qualifier#between
+,
+#end
+
+			)
+		</insert>
+#else
+		<insert id="Insert$table.Alias" parameterClass="$table.Alias">
+			<selectKey property="$key.Alias" type="post" resultClass="$key.Type">
+				select @@identity
+			</selectKey>
+			insert into $table.Name
+			(
+#foreach ($column in $columns)
+				$column.Name#between
+,
+#end
+
+			)
+			values
+			(
+#foreach ($column in $columns)
+#each
+				$qualifier$column.Alias$qualifier#between
+,
+#end
+
+			)
+		</insert>
+#end
+		
+		<update id="Update$table.Alias" parameterClass="map">
+			update $table.Name
+			set
+			<include refid="${table.Alias}updatefilter" />
+			where $key.Name = #$key.Alias#
+		</update>
+	</statements>
+</sqlMap>
